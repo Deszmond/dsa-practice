@@ -1,4 +1,4 @@
-lass Solution:
+class Solution:
     def isSubsequence(self, s: str, t: str) -> bool:
         
         # Pattern: Two Pointers (Greedy subsequence matching)
