@@ -5,6 +5,7 @@ class Solution:
         # Key idea: Move through t and advance s only when characters match.
         # Time Complexity: O(n + m)
         # Space Complexity: O(1)
+        
         p_s, p_t = 0, 0
 
         while p_s < len(s) and p_t < len(t):
