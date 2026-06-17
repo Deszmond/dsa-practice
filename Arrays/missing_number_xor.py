@@ -1,18 +1,44 @@
+from typing import List
 class Solution:
-    def missingNumber(self, nums: List[int]) -> int:
-
-        # Problem: Missing Number
+    def singleNumber(self, nums: List[int]) -> int:
+        
+        # Problem: Single Number
+        #
+        # Given a non-empty array of integers, every element
+        # appears exactly twice except for one element.
+        # Find and return that single element.
+        #
         # Thought Process:
-        # XOR every index and every number.
-        # Since duplicate values cancel each other out,
-        # only the missing number remains at the end.
+        # XOR has two important properties:
+        #
+        # 1. A number XOR itself equals 0
+        #    a ^ a = 0
+        #
+        # 2. A number XOR 0 equals itself
+        #    a ^ 0 = a
+        #
+        # Since every duplicate appears exactly twice,
+        # the duplicates cancel each other out when XORed.
+        #
+        # Example:
+        # [4, 1, 2, 1, 2]
+        #
+        # 4 ^ 1 ^ 2 ^ 1 ^ 2
+        # = 4 ^ (1 ^ 1) ^ (2 ^ 2)
+        # = 4 ^ 0 ^ 0
+        # = 4
+        #
+        # The remaining value is the number that appears once.
+        #
         # Time Complexity: O(n)
+        # - Iterate through the array once.
+        #
         # Space Complexity: O(1)
+        # - Only one variable is used regardless of input size.
 
-        missing_number = len(nums)
+        xor_result = 0
 
-        for index, value in enumerate(nums):
-            missing_number ^= index
-            missing_number ^= value
+        for n in nums:
+            xor_result ^= n
 
-        return missing_number
+        return xor_result
