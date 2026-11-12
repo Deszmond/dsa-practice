@@ -1,48 +1,53 @@
 from typing import List
 
-def smallerNumbersThanCurrent(nums: List[int]) -> List[int]:
-    # Problem: How Many Numbers Are Smaller Than the Current Number
-    #
-    # Thought Process:
-    # Sort the array to determine the relative ordering of numbers.
-    # In a sorted array, the first index of a number represents
-    # how many numbers are strictly smaller than it.
-    #
-    # Example:
-    # nums = [8, 1, 2, 2, 3]
-    # sorted_nums = [1, 2, 2, 3, 8]
-    #
-    # First occurrence indices:
-    # 1 -> 0
-    # 2 -> 1
-    # 3 -> 3
-    # 8 -> 4
-    #
-    # Store each number's first index in a dictionary.
-    # Then iterate through the original array and replace each
-    # number with its stored index.
-    #
-    # Time Complexity: O(n log n)
-    # - Sorting the array costs O(n log n)
-    # - Building the dictionary costs O(n)
-    # - Building the result costs O(n)
-    #
-    # Space Complexity: O(n)
-    # - Dictionary stores up to n unique values
-    # - Result array stores n values
 
+# LeetCode 1365: How Many Numbers Are Smaller Than the Current Number
+#
+# Problem:
+# For each number, count how many elements in the array
+# are strictly smaller than it.
+#
+# Thought Process:
+# Sort the array to establish the ordering of values.
+# The first occurrence index of each value tells us how
+# many elements are strictly smaller than that value.
+#
+# Store these indices in a dictionary, then use the
+# original array to construct the result in its original order.
+#
+# Pattern: Sorting + Hash Map / First Occurrence Mapping
+#
+# Time Complexity: O(n log n)
+# Sorting dominates the two O(n) traversals.
+#
+# Space Complexity: O(n)
+# The sorted copy, dictionary and result each use up to O(n) space.
+#
+# Key Insight:
+# Record only the FIRST occurrence of each number.
+# Later occurrences would incorrectly count duplicates
+# as strictly smaller elements.
+
+
+def smallerNumbersThanCurrent(nums: List[int]) -> List[int]:
+
+    # Maps each unique value to its first index in sorted order.
     store = {}
 
+    # Create a sorted copy without modifying the original input.
     sorted_nums = sorted(nums)
 
-    # Store the first occurrence index of each number
     for i, v in enumerate(sorted_nums):
+
+        # Preserve the first occurrence, since duplicates
+        # must not count as strictly smaller numbers.
         if v not in store:
             store[v] = i
 
     res = []
 
-    # Lookup the count of smaller numbers for each value
+    # Use the original ordering to construct the answer.
+    # Each lookup gives the count of strictly smaller values.
     for n in nums:
         res.append(store[n])
 
