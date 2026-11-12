@@ -1,42 +1,59 @@
+from typing import List
+
+
 class Solution:
+    # LeetCode 75: Sort Colors
+    #
+    # Problem:
+    # Sort an array containing only 0, 1 and 2 in ascending
+    # order without using a built-in sorting function.
+    # Modify the original array in-place.
+    #
+    # Thought Process:
+    # Since there are only three possible values,
+    # count how many times each colour appears.
+    #
+    # Then overwrite the original array with the correct
+    # number of 0s, followed by 1s, followed by 2s.
+    #
+    # Pattern: Counting Sort / Frequency Counting
+    #
+    # Time Complexity: O(n)
+    # First traversal: count n elements.
+    # Second traversal: overwrite n elements.
+    # Total: O(2n) -> O(n).
+    #
+    # Space Complexity: O(1) auxiliary space
+    # The buckets array always contains exactly 3 elements.
+    # No additional array proportional to n is created.
+    #
+    # Key Insight:
+    # A fixed, small range of possible values allows
+    # frequency counting to replace comparison-based sorting.
+
     def sortColors(self, nums: List[int]) -> None:
         """
         Do not return anything, modify nums in-place instead.
         """
-        """
-        Problem: Sort Colors (LeetCode 75)
 
-        Approach: Counting Sort
-
-        Thought Process:
-        1. Count the occurrences of each colour (0, 1, 2).
-        2. Overwrite nums with the correct number of 0s, 1s, and 2s
-           in ascending order.
-        3. Modify nums in-place without returning a new list.
-
-        Time Complexity: O(n)
-        Space Complexity: O(1) auxiliary space
-
-        Where n = len(nums).
-        The buckets list always contains exactly 3 elements.
-        """
-
-        # Count how many times each colour appears.
-        # Index 0 stores the count of 0s.
-        # Index 1 stores the count of 1s.
-        # Index 2 stores the count of 2s.
+        # Fixed-size frequency array:
+        # buckets[0] = number of 0s
+        # buckets[1] = number of 1s
+        # buckets[2] = number of 2s
         buckets = [0, 0, 0]
 
+        # Count each colour using its value as the bucket index.
         for num in nums:
             buckets[num] += 1
 
-        # Track the position in nums that we are overwriting.
+        # Pointer to the next position to overwrite.
         curr = 0
 
-        # Visit each colour in ascending order: 0, then 1, then 2.
+        # Process colours in ascending order.
         for i in range(len(buckets)):
 
-            # Write the current colour as many times as it appeared.
+            # Write colour i exactly buckets[i] times.
+            # This preserves the original frequency of each colour.
             for j in range(buckets[i]):
                 nums[curr] = i
                 curr += 1

@@ -1,34 +1,51 @@
 class Solution:
+    # LeetCode 242: Valid Anagram
+    #
+    # Problem:
+    # Determine whether two strings contain exactly the
+    # same characters with identical frequencies.
+    #
+    # Thought Process:
+    # Anagrams must have the same length and character counts.
+    # First, eliminate strings with different lengths.
+    # Then build a frequency dictionary for each string.
+    # If both dictionaries are equal, the strings are anagrams.
+    #
+    # Pattern: Hash Map / Character Frequency Counting
+    #
+    # Time Complexity: O(n) expected
+    # n = length of each string after the length check.
+    # Each string is traversed once.
+    # Dictionary updates and comparisons take O(n) at most.
+    #
+    # Space Complexity: O(k)
+    # k = number of distinct characters.
+    # Two dictionaries store up to k character-frequency pairs.
+    # Worst case: O(n) for an unrestricted alphabet.
+    # With a fixed 26-letter alphabet: O(1).
+    #
+    # Key Insight:
+    # Anagrams depend on character frequencies,
+    # not the order in which characters appear.
+
     def isAnagram(self, s: str, t: str) -> bool:
 
-        #Problem: is Anagram
-        #Pattern: Hashmap
-        #Time: O(s+t) -> O(n), for loops aren't nested and are sequential so is linear
-        #Space O(s+t) -> O(n), created hashmaps which use space 
-
-
-        #Check lengths of both strings
+        # Different lengths mean the strings cannot be anagrams.
         if len(s) != len(t):
             return False
 
-        #Create empty hashmaps to store values and counts
-        checkS = {}
-        checkT = {}
+        # Store the character frequencies of each string.
+        store_s = {}
+        store_t = {}
 
-        #iterate through both strings and add to hashmap
-        
         for char in s:
-            if char in checkS:
-                checkS[char] += 1
+            # get() returns 0 if the character has not appeared.
+            # Otherwise, retrieve its existing frequency.
+            store_s[char] = store_s.get(char, 0) + 1
 
-            elif char not in checkS:
-                checkS[char] = 1
+        for char in t:
+            store_t[char] = store_t.get(char, 0) + 1
 
-        for char2 in t:
-            if char2 in checkT:
-                checkT[char2] += 1
-
-            elif char2 not in checkT:
-                checkT[char2] = 1
-
-        return checkS == checkT
+        # Dictionary equality compares keys and their values,
+        # regardless of insertion order.
+        return store_s == store_t
